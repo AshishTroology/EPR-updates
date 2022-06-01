@@ -1,0 +1,10 @@
+
+.redClass{
+    border:2px solid green;
+  }
+  .greyClass{
+    border:1px solid #e5e4e4;
+  }
+  img{
+    height: 30px;
+  }

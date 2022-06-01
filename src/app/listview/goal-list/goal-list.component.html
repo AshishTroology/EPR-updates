@@ -1,0 +1,126 @@
+<app-header></app-header> 
+ <app-sidenav></app-sidenav>
+ <div id="content" class="app-content" role="main">
+    <div class="app-content-body ">
+      <div class="bg-white b-b-none wrapper-md main">
+        <div class="row">
+          <div class="col-sm-6 ">
+            <h4 class="m-n font-bold ">Target Setting List</h4>
+          </div>
+          <div class="col-sm-6 text-right poppins hidden-xs">
+            <button *ngIf="this.userPermission.targetcreate" routerLink="/goal" class="button"><i
+              class="fa fa-plus"></i> Add Target Setting</button>
+          </div>
+        </div>
+      </div>
+
+      <kendo-grid
+      [kendoGridBinding]="gridView"
+      kendoGridSelectBy="id"
+      [selectedKeys]="mySelection"
+      [pageSize]="20"
+      [pageable]="true"
+      [sortable]="true"
+      [reorderable]="true"
+      [resizable]="true"
+      [height]="500"
+      [columnMenu]="{ filter: true }">
+      <ng-template kendoGridToolbarTemplate>
+      <input
+          placeholder="Search in all columns..."
+          kendoTextBox
+          (input)="onFilter($event)"
+          />
+      <kendo-grid-spacer></kendo-grid-spacer>
+      
+      </ng-template>
+      <kendo-grid-column field="Created By" title="Created By" [width]="100">
+        <ng-template kendoGridCellTemplate let-dataItem>
+         
+        <div class="target_id "><b>{{dataItem.created_by}}</b></div>
+         
+      </ng-template>
+
+
+      </kendo-grid-column>
+      
+        <kendo-grid-column field="Target Name" title="Target Name" [width]="100">
+          <ng-template kendoGridCellTemplate let-dataItem>
+           
+          <div class="target_id ">{{dataItem.target_name}}</div>
+           
+        </ng-template>
+
+
+        </kendo-grid-column>
+
+        <kendo-grid-column field="target_duration" title="Target Duration" [width]="100">
+          <ng-template kendoGridCellTemplate let-dataItem>
+           
+          <div class="target_duration ">{{dataItem.target_duration|date:'MMMM-yyyy'}}</div>
+           
+        </ng-template>
+
+
+        </kendo-grid-column>
+
+        <!-- <kendo-grid-column field="target_duration" title="Target Duration" [width]="100">
+        </kendo-grid-column> -->
+        <!-- <kendo-grid-column field="state" title="Target State" [width]="100">
+        </kendo-grid-column> -->
+        <kendo-grid-column title="State" [width]="100">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="text-capitalize"> {{dataItem.state | lowercase}}</div>
+        
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="Target Created" title="Target Created" [width]="100">
+          <ng-template kendoGridCellTemplate let-dataItem>
+           
+          <div class="target_id"><i _ngcontent-fcn-c561="" aria-hidden="true" class="fa fa-calendar-check-o" style="color: green;"></i> {{dataItem.created_at|date:'dd-MM-yyyy'}}</div>
+           
+        </ng-template>
+        </kendo-grid-column>
+     
+      
+      
+       <kendo-grid-column
+       title="Action"
+       [width]="100"
+       [class]="{ 'text-center': true }"
+       [resizable]="false"
+       [filterable]="false"
+      >
+       <ng-template kendoGridCellTemplate let-target>
+        <kendo-menu>
+          <kendo-menu-item icon="gear">
+            <kendo-menu-item text="Edit" url="/edit-target/{{target._id }}" icon="edit"> </kendo-menu-item>
+            
+            <kendo-menu-item text="Details" *ngIf="this.userPermission.targetedit" url="/targetview/{{ target._id }}" icon="info"> </kendo-menu-item>
+            
+            <kendo-menu-item icon="delete" >
+              <ng-template kendoMenuItemTemplate >
+                <div  style="width: 100%;">
+                  <a  (click)="delete(target._id)" >Delete</a>
+                </div>
+              </ng-template>
+            </kendo-menu-item>
+         
+          </kendo-menu-item>
+         
+        </kendo-menu>
+       </ng-template>
+
+       
+
+
+      </kendo-grid-column>
+
+     
+
+
+      </kendo-grid>
+
+      </div>
+      </div>

@@ -1,0 +1,147 @@
+<app-header></app-header>
+<app-sidenav></app-sidenav>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+  <p style="color: white"> Image is uploading, please wait... </p>
+</ngx-spinner>
+<div id="content" class="app-content" role="main">
+  <div class="app-content-body ">
+    <div class=" b-b-none wrapper-md main">
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+          <h4 class="m-n font-bold ">Certificates List</h4>
+        </div>
+        <div class="col-sm-6 text-right poppins hidden-xs">
+
+          <button class="button" data-toggle="modal" data-target="#exampleModalCenterGen" style="cursor: pointer;"> <i
+              class="fa fa-plus"></i> ADD</button>
+
+
+        </div>
+      </div>
+    </div>
+    <kendo-grid [kendoGridBinding]="gridView" kendoGridSelectBy="id" [selectedKeys]="mySelection" [pageSize]="20"
+      [pageable]="true" [sortable]="true" [reorderable]="true" [resizable]="true" [height]="500"
+      [columnMenu]="{ filter: true }">
+      <ng-template kendoGridToolbarTemplate>
+        <input placeholder="Search in all columns..." kendoTextBox (input)="onFilter($event)" />
+        <kendo-grid-spacer></kendo-grid-spacer>
+      </ng-template>
+
+
+
+      <kendo-grid-column field="org_name" title="Organization " [width]="100">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="doc_name" title="Doc Name" [width]="100">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="doc_description" title="Description " [width]="100">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="po_no" title="PO Number" [width]="100">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="month" title="Month " [width]="100">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="doc_file" title="Action" [width]="100">
+        <ng-template kendoGridCellTemplate let-dataitem>
+          <a class="btn btn-info btn-xs" href="{{ dataitem.doc_file }}" target="_blank"><i
+              class="fa fa-download"></i></a>
+          <a class="btn btn-danger btn-xs" (click)="deleteCertificate(dataitem._id)"><i class="fa fa-trash"></i></a>
+          <a class="btn btn-success btn-xs" (click)="publishCertificate(dataitem._id,dataitem.status)"><i
+              class="fa fa-share"></i> {{ dataitem.status?'Published':'Unpublished' }}</a>
+        </ng-template>
+      </kendo-grid-column>
+
+
+    </kendo-grid>
+  </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenterGen" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close  m-t-xs" data-dismiss="modal"><span>⤬</span></button>
+        <span class="modal-title  font-weight-600 text-20">Add </span>
+      </div>
+      <div class="modal-body">
+        <div class="details">
+          <form [formGroup]="certificateForm" (ngSubmit)="Onsubmit()">
+            <div class="row">
+
+              <div class="col-md-6 form-group">
+                <label class="control-label font-weight-600">Organization Name </label>
+                <!-- <input type="text" class="form-control" placeholder="Organization Name " formControlName="org_name"> -->
+                <select class="form-control" formControlName="org_name">
+                  <option value="" selected disabled>Select Organization</option>
+                  <option *ngFor="let item of customerdata">{{ item.organization_name }}</option>
+
+                </select>
+              </div>
+              <div class="col-md-6 form-group">
+                <label class="control-label font-weight-600">Document Name </label>
+                <input type="text" class="form-control" formControlName="doc_name">
+
+
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 form-group">
+                <label class="control-label font-weight-600">Document Description </label>
+                <textarea class="form-control" formControlName="doc_description"></textarea>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col-md-6 form-group">
+                <label class="control-label font-weight-600">PO No. </label>
+
+                <input type="text" class="form-control" formControlName="po_no">
+
+              </div>
+              <div class="col-md-6 form-group">
+                <label class="control-label font-weight-600">Month </label>
+                <input type="date" class="form-control" formControlName="month">
+
+
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-12 form-group">
+                <label class="control-label font-weight-600">Choose file</label>
+
+                <input type="file" class="form-control" formControlName="doc_file" (change)="fileupload($event)">
+
+              </div>
+
+
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label class="control-label font-weight-600">&nbsp;</label>
+                <div class="form-group">
+                  <button type="button" class=" bt light">Cancel</button>
+                  <button type="submit" class="bt danger" style="margin-left: 2%;">Save</button>
+
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- mode end -->

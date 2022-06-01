@@ -1,0 +1,45 @@
+<app-header ></app-header>
+<app-sidenav *ngIf="this.userdata.role!=='62441e61257f8d07cdbf823d'?true:false"></app-sidenav>
+<h1 *ngIf="this.userdata.role!=='62441e61257f8d07cdbf823d'?true:false">Dashboard</h1>
+<h1 *ngIf="this.userdata.role==='62441e61257f8d07cdbf823d'?true:false">Certificate</h1>
+
+<div id="content" *ngIf="this.userdata.role==='62441e61257f8d07cdbf823d'?true:false" class="{{ this.userdata.role!=='62441e61257f8d07cdbf823d'?'app-content':'' }}" role="main">
+  <div class="app-content-body ">
+    <div class=" b-b-none wrapper-md main">
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+          <h4 class="m-n font-bold ">Certificates List</h4>
+        </div>
+      </div>
+    </div>
+    <kendo-grid [kendoGridBinding]="gridView" kendoGridSelectBy="id" [selectedKeys]="mySelection" [pageSize]="20"
+      [pageable]="true" [sortable]="true" [reorderable]="true" [resizable]="true" [height]="500"
+      [columnMenu]="{ filter: true }">
+
+      <kendo-grid-column field="org_name" title="Organization " [width]="100">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="doc_name" title="Doc Name" [width]="100">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="doc_description" title="Description " [width]="100">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="po_no" title="PO Number" [width]="100">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="month" title="Month " [width]="100">
+      </kendo-grid-column>
+
+      <kendo-grid-column field="doc_file" title="Action" [width]="100">
+        <ng-template kendoGridCellTemplate let-dataitem>
+          <a class="btn btn-info btn-xs" href="{{ dataitem.doc_file }}" target="_blank"><i
+              class="fa fa-download"></i></a>
+
+        </ng-template>
+      </kendo-grid-column>
+
+
+    </kendo-grid>
+  </div>
+</div>
